@@ -20,7 +20,7 @@ myhdparam: my-hdparm.cpp hdparm.h
 
 .PHONY:clean
 clean:
-	rm -rf hugepage glane myhdparam
+	rm -rf hugepage glane myhdparam test
 
 CFILE = main.cpp my-hdparm.cpp
 HEAD = hdparm.h

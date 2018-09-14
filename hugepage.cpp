@@ -20,9 +20,9 @@ static void write_byt(char *addr, char c);
 static void print_byt(char *addr);
 
 // Get physical address of any mapped virtual address in the current process
-uint64_t mem_virt2phy(const void *virtaddr);
+static uint64_t mem_virt2phy(const void *virtaddr);
 
-int main()
+int hugepage_main()
 {
 	void *addr;
 	int hugepage_fd, ret;
@@ -78,7 +78,7 @@ static void print_byt(char *addr)
 	}
 }
 
-uint64_t mem_virt2phy(const void *virtaddr)
+static uint64_t mem_virt2phy(const void *virtaddr)
 {
 	int fd, retval;
 	uint64_t page, physaddr;

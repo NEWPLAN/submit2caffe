@@ -13,11 +13,10 @@
 #include <unistd.h>
 #define PFN_MASK_SIZE 8
 
-
 int set_cpu_affinity(int core_id)
 {
     int result;
-    cpu_set_t  mask;
+    cpu_set_t mask;
     CPU_ZERO(&mask);
     CPU_SET(core_id, &mask);
     result = sched_setaffinity(0, sizeof(mask), &mask);
@@ -32,11 +31,11 @@ uint64_t current_time()
     return tstart.tv_nsec;
 }
 
-uint64_t mem_virt2phy(const void *virtaddr)
+static uint64_t mem_virt2phy(const void *virtaddr)
 {
     int fd, retval;
     uint64_t page, physaddr;
-    unsigned long long virt_pfn;    // virtual page frame number
+    unsigned long long virt_pfn; // virtual page frame number
     int page_size;
     off_t offset;
 
@@ -54,7 +53,7 @@ uint64_t mem_virt2phy(const void *virtaddr)
     //printf("Virtual page frame number is %llu\n", virt_pfn);
 
     offset = sizeof(uint64_t) * virt_pfn;
-    if (lseek(fd, offset, SEEK_SET) == (off_t) - 1)
+    if (lseek(fd, offset, SEEK_SET) == (off_t)-1)
     {
         fprintf(stderr, "%s(): seek error in /proc/self/pagemap: %s\n", __func__, strerror(errno));
         close(fd);
@@ -90,8 +89,7 @@ uint64_t mem_virt2phy(const void *virtaddr)
     return physaddr;
 }
 
-
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     int fd, core_num, core_id = 19, i;
     int cmd_length = 95000, sub_length = 95000, cpl_length = 95000, sub_total_num = 0, cpl_total_num = 0;
@@ -104,7 +102,6 @@ int main(int argc, char** argv)
     printf("your seted launch time: ", launch);
     scanf("%d", &launch);
     defaults = launch;
-
 
     core_num = init_driver("/dev/glaneoncpu0");
     if (core_num < 0)
@@ -140,8 +137,7 @@ int main(int argc, char** argv)
             }
             // printf("submit: %d\n", sub_length);
             cmd_length -= sub_length;
-        }
-        while (cmd_length != 0);
+        } while (cmd_length != 0);
 
         if (cmd_length != 0)
         {
@@ -163,9 +159,7 @@ int main(int argc, char** argv)
             }
             // printf("complete: %d\n", cpl_length);
             cmd_length -= cpl_length;
-        }
-        while (cmd_length != 0);
-
+        } while (cmd_length != 0);
 
         if (cmd_length != 0)
         {
