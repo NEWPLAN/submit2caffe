@@ -22,7 +22,7 @@ myhdparam: my-hdparm.cpp hdparm.h
 clean:
 	rm -rf hugepage glane myhdparam test
 
-CFILE = main.cpp my-hdparm.cpp
+CFILE = main.cpp my-hdparm.cpp hugepage.cpp glane.cpp
 HEAD = hdparm.h
 test:$(CFILE) 
 	g++ $(CPPFLAGES) $^ -o test $(LDFLAGS)  
