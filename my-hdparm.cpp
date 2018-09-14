@@ -67,7 +67,7 @@ static uint64_t current_time(void)
 
 
 std::vector<string> manifest;
-std::vector<string> load_manifest(char* manifest_path)
+std::vector<string> load_manifest(const char* manifest_path)
 {
 	///*
 	std::ifstream infile(manifest_path);
@@ -94,12 +94,6 @@ int hdparm_main(const char* name, const char* path)
 {
 	char *file_name = NULL;
 	vector<struct command> blk_cmds;
-
-	if (argc != 3)
-	{
-		//usage(argv[0]);
-		return -1;
-	}
 
 	printf("Hello world, newplan...\n");
 	//"/mnt/dc_p3700/imagenet/train"
