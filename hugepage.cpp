@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "hugepage.h"
 
 #define HUGEPAGE_FILE "/dev/hugepages1G/random"
 #define LENGTH (1024UL * 1024 * 1024)   // 1M
