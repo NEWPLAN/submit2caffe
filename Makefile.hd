@@ -1,0 +1,26 @@
+CC ?= g++
+#STRIP ?= strip
+
+CFLAGS := -g -W -Wall $(CFLAGS) -std=c++11
+LDFLAGS = -s -lmyhdparm
+
+OBJS = my-hdparm.o 
+#my-hdparm.o libhdparm/fibmap.o libhdparm/geom.o libhdparm/sysfs.o
+
+all: my-hdparm
+
+my-hdparm: $(OBJS)
+	make install -C libhdparm
+	g++ -o my-hdparm $(OBJS) $(LDFLAGS) 
+	#$(STRIP) my-hdparm
+
+my-hdparm.o: my-hdparm.cpp libhdparm/hdparm.h
+	g++ $(CFLAGS) -c -o my-hdparm.o my-hdparm.cpp
+
+clean:
+	-rm -f my-hdparm *.o core 2>/dev/null
+	-make clean -C libhdparm
+	-make uninstall -C libhdparm
+
+run:my-hdparm
+	sudo ./my-hdparm /home/yang/project/imagenet/lmdb/ilsvrc12/train.txt /mnt/dc_p3700/imagenet/train/

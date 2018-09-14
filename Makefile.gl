@@ -1,0 +1,19 @@
+CC = gcc
+
+CPPFLAGS = -I../UserLibrary -pthread -O3
+
+LDFLAGS = 
+LIBS = -lglane
+
+all: loopback benchmark
+	
+
+loopback: main.c 
+	$(CC) $(CPPFLAGS) $(LDFLAGS) main.c  -o loopback $(LIBS)
+
+benchmark: benchmark.c 
+	$(CC) $(CPPFLAGS) $(LDFLAGS) benchmark.c  -o benchmark $(LIBS)
+
+
+clean:
+	rm -f loopback benchmark
