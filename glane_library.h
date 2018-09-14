@@ -89,6 +89,8 @@ int read_completion(int qid, struct glane_entry *cmd, int count);
 // int write_target_address(uint64_t addr);
 // int write_target_value(uint64_t value);
 // int trigger_fpga();
+
+int glane_main(void);
 #if defined (__cplusplus)
 }
 #endif

@@ -22,7 +22,7 @@ static void print_byt(char *addr);
 // Get physical address of any mapped virtual address in the current process
 static uint64_t mem_virt2phy(const void *virtaddr);
 
-int hugepage_main()
+int hugepage_main(void)
 {
 	void *addr;
 	int hugepage_fd, ret;

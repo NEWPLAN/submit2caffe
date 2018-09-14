@@ -89,7 +89,7 @@ static uint64_t mem_virt2phy(const void *virtaddr)
     return physaddr;
 }
 
-int main(int argc, char **argv)
+int glane_main(void)
 {
     int fd, core_num, core_id = 19, i;
     int cmd_length = 95000, sub_length = 95000, cpl_length = 95000, sub_total_num = 0, cpl_total_num = 0;

@@ -5,7 +5,7 @@ CFLAGS = -O3 -W -Wall
 CPPFLAGES = -std=c++11 $(CFLAGS)
 LDFLAGS = -lglane -pthread -s -lmyhdparm
 
-all: hugepage glane test
+all: glane test
 	@echo $^
 
 hugepage:hugepage.cpp
