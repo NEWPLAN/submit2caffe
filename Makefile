@@ -8,14 +8,16 @@ LDFLAGS = -lglane -pthread -s -lmyhdparm
 all: hugepage glane test
 	@echo $^
 
-hugepage:hugepage.c
+hugepage:hugepage.cpp
 	gcc $< -o $@ -Wall $(CPPFLAGES)
 
-glane:glane.c glane_library.h
+glane:glane.cpp glane_library.h
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
 
 myhdparam: my-hdparm.cpp hdparm.h
 	g++ $(CPPFLAGES) $< -o myhdparam $(LDFLAGS)  
+
+
 .PHONY:clean
 clean:
 	rm -rf hugepage glane myhdparam
