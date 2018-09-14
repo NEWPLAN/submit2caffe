@@ -5,7 +5,7 @@ CFLAGS = -O3 -W -Wall
 CPPFLAGES = -std=c++11 $(CFLAGS)
 LDFLAGS = -lglane -pthread -s -lmyhdparm
 
-all: hugepage glane myhdparam
+all: hugepage glane test
 	@echo $^
 
 hugepage:hugepage.c
@@ -20,5 +20,11 @@ myhdparam: my-hdparm.cpp hdparm.h
 clean:
 	rm -rf hugepage glane myhdparam
 
-run_myhdparam:myhdparam
-	sudo ./myhdparam /home/yang/project/imagenet/lmdb/ilsvrc12/train.txt /mnt/dc_p3700/imagenet/train/
+CFILE = main.cpp my-hdparm.cpp
+HEAD = hdparm.h
+test:$(CFILE) $(HEAD)
+	g++ $(CPPFLAGES) $< -o test $(LDFLAGS)  
+
+
+run_myhdparam:test
+	sudo ./test /home/yang/project/imagenet/lmdb/ilsvrc12/train.txt /mnt/dc_p3700/imagenet/train/

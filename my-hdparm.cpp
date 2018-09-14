@@ -90,7 +90,7 @@ std::vector<string> load_manifest(char* manifest_path)
 	return manifest;
 }
 
-int main(int argc, char **argv)
+int hdparm_main(int argc, char **argv)
 {
 	char *file_name = NULL;
 	vector<struct command> blk_cmds;
