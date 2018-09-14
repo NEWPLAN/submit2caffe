@@ -110,7 +110,7 @@ enum {	/* ioctl() numbers */
 #undef BLKGETSIZE64
 #endif
 #define BLKGETSIZE64 _IOR(0x12,114,__u64)
-int hdparm_main(char* name, char* path);
+int hdparm_main(const char* name, const char* path);
 #if defined (__cplusplus)
 }
 #endif
