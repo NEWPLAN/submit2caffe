@@ -31,63 +31,6 @@ uint64_t current_time()
     return tstart.tv_nsec;
 }
 
-static uint64_t mem_virt2phy(const void *virtaddr)
-{
-    int fd, retval;
-    uint64_t page, physaddr;
-    unsigned long long virt_pfn; // virtual page frame number
-    int page_size;
-    off_t offset;
-
-    /* standard page size */
-    page_size = getpagesize();
-
-    fd = open("/proc/self/pagemap", O_RDONLY);
-    if (fd < 0)
-    {
-        fprintf(stderr, "%s(): cannot open /proc/self/pagemap: %s\n", __func__, strerror(errno));
-        return 0;
-    }
-
-    virt_pfn = (unsigned long)virtaddr / page_size;
-    //printf("Virtual page frame number is %llu\n", virt_pfn);
-
-    offset = sizeof(uint64_t) * virt_pfn;
-    if (lseek(fd, offset, SEEK_SET) == (off_t)-1)
-    {
-        fprintf(stderr, "%s(): seek error in /proc/self/pagemap: %s\n", __func__, strerror(errno));
-        close(fd);
-        return 0;
-    }
-
-    retval = read(fd, &page, PFN_MASK_SIZE);
-    close(fd);
-    if (retval < 0)
-    {
-        fprintf(stderr, "%s(): cannot read /proc/self/pagemap: %s\n", __func__, strerror(errno));
-        return 0;
-    }
-    else if (retval != PFN_MASK_SIZE)
-    {
-        fprintf(stderr, "%s(): read %d bytes from /proc/self/pagemap but expected %d\n",
-                __func__, retval, PFN_MASK_SIZE);
-        return 0;
-    }
-
-    /*
-     * the pfn (page frame number) are bits 0-54 (see
-     * pagemap.txt in linux Documentation)make cl
-     */
-    if ((page & 0x7fffffffffffffULL) == 0)
-    {
-        fprintf(stderr, "Zero page frame number\n");
-        return 0;
-    }
-
-    physaddr = ((page & 0x7fffffffffffffULL) * page_size) + ((unsigned long)virtaddr % page_size);
-
-    return physaddr;
-}
 
 int glane_main(void)
 {
@@ -178,24 +121,6 @@ int glane_main(void)
         if (launch % 100 == 0)
             printf("memcmp success in %d\n", defaults - launch);
     }
-    // if (mem_virt2phy(&useless) == 0)
-    // {
-    //     printf("user bar ctrl failed\n");
-    //     goto free_driver;
-    // }
-    // if (write_target_address(mem_virt2phy(&useless)) || write_target_value(0x888) || trigger_fpga())
-    // {
-    //     printf("user bar ctrl failed\n");
-    //     goto free_driver;
-    // }
-
-    // while(useless == 0x123)
-    // {
-    //     printf("value: 0x%lX\n",useless);
-    //     sleep(0.2);
-    // }
-
-    // printf("user bar ctrl success\n");
 
 free_driver:
     free_driver();

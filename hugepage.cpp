@@ -26,7 +26,7 @@ static uint64_t mem_virt2phy(const void *virtaddr);
 int hugepage_main(void)
 {
 	void *addr;
-	int hugepage_fd, ret;
+	int hugepage_fd;
 	uint64_t paddr;
 
 	hugepage_fd = open(HUGEPAGE_FILE, O_CREAT | O_RDWR, 0755);
