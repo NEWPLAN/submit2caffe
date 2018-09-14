@@ -1,5 +1,7 @@
 #include <iostream>
 #include "hdparm.h"
+#include "hugepage.h"
+#include "glane.h"
 
 int main(int argc, char const *argv[])
 {
