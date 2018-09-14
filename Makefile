@@ -2,7 +2,7 @@ CC = gcc
 C++ =g++
 
 CFLAGS = -O3 -W -Wall
-CPPFLAGES = -std=c++11 $(CREF)
+CPPFLAGES = -std=c++11 $(CFLAGS)
 LDFLAGS = -lglane -pthread -s -lmyhdparm
 
 all: hugepage glane myhdparam
@@ -15,7 +15,7 @@ glane:glane.c glane_library.h
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
 
 myhdparam: my-hdparm.cpp hdparm.h
-	g++ $< -o myhdparam $(LDFLAGS) 
+	g++ $(CPPFLAGES) $< -o myhdparam $(LDFLAGS)  
 .PHONY:clean
 clean:
 	rm -rf hugepage glane myhdparam
