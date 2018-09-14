@@ -9,7 +9,7 @@ all: hugepage glane myhdparam
 	@echo $^
 
 hugepage:hugepage.c
-	gcc $< -o $@ -Wall
+	gcc $< -o $@ -Wall $(CPPFLAGES)
 
 glane:glane.c glane_library.h
 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
