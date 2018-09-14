@@ -18,7 +18,7 @@ using namespace std;
 
 #include <stdio.h>
 #include <sys/types.h>
-#include "libhdparm/hdparm.h"
+#include "hdparm.h"
 
 #define MAXCOUNT 1024
 
