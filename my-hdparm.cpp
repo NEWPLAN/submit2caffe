@@ -90,7 +90,7 @@ std::vector<string> load_manifest(char* manifest_path)
 	return manifest;
 }
 
-int hdparm_main(int argc, char **argv)
+int hdparm_main(char* name, char* path)
 {
 	char *file_name = NULL;
 	vector<struct command> blk_cmds;
@@ -103,11 +103,11 @@ int hdparm_main(int argc, char **argv)
 
 	printf("Hello world, newplan...\n");
 	//"/mnt/dc_p3700/imagenet/train"
-	string root_path = string(argv[2]);
+	string root_path = string(path);
 	//*/
 	//file_name = argv[1];
 	std::vector<string> _manifest;
-	_manifest = load_manifest(argv[1]);
+	_manifest = load_manifest(name);
 	uint64_t index = 0;
 	for (auto& each_file : _manifest)
 	{
