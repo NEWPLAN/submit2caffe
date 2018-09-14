@@ -22,8 +22,8 @@ clean:
 
 CFILE = main.cpp my-hdparm.cpp
 HEAD = hdparm.h
-test:$(CFILE) $(HEAD)
-	g++ $(CPPFLAGES) $< -o test $(LDFLAGS)  
+test:$(CFILE) 
+	g++ $(CPPFLAGES) $^ -o test $(LDFLAGS)  
 
 
 run_myhdparam:test
