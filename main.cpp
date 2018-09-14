@@ -6,8 +6,8 @@
 
 int main(int argc, char const *argv[])
 {
-    string man_path = "/home/yang/project/imagenet/lmdb/ilsvrc12/train.txt";
-    string folder_path = "/mnt/dc_p3700/imagenet/train/";
+    std::string man_path = "/home/yang/project/imagenet/lmdb/ilsvrc12/train.txt";
+    std::string folder_path = "/mnt/dc_p3700/imagenet/train/";
     std::cout<<"Hello world..."<<std::endl;
     hugepage_main();
     glane_main();
