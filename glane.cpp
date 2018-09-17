@@ -68,7 +68,7 @@ fpga_channel::fpga_channel(uint32_t _core_id)
         exit(-1);
     }
 
-    for (i = 0; i < MAX_CMD_LENGTH; i++)
+    for (int i = 0; i < MAX_CMD_LENGTH; i++)
     {
         cmds[i].req_type = 0x40; // REQ_AIPRE_READ
         cmds[i].dst_ipv4 = 123;
