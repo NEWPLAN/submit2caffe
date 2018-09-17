@@ -160,8 +160,8 @@ void _hugepage_::display()
 	printf("Virtual address is %p\n", addr);
 	printf("Physical address is %llu\n", paddr);
 
-	std::cout<<"batched items is: "<<batch_vect.length()<<std::endl;
-	for(int index = 0; index<batch_vect.length();index++)
+	std::cout<<"batched items is: "<<batch_vect.size()<<std::endl;
+	for(int index = 0; index<batch_vect.size();index++)
 	{
 		std::cout<<"\nindex: "<<batch_vect[index].index
 		<<" physical addr: "<<batch_vect[index].phy_addr
