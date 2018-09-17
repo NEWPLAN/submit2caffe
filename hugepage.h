@@ -1,6 +1,8 @@
 #ifndef __MY_HUGE_PAGE__
 #define __MY_HUGE_PAGE__
-
+#include <iostream>
+#include <string>
+#include <vector>
 #if defined(__cplusplus)
 extern "C"
 {
@@ -14,9 +16,7 @@ extern "C"
 #define BAD_PHYS_ADDR 0
 #define PFN_MASK_SIZE 8
 
-#include <iostream>
-#include <string>
-#include <vector>
+
 class _hugepage_
 {
   public:

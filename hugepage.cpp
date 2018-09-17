@@ -15,40 +15,8 @@ static void print_byt(char *addr);
 // Get physical address of any mapped virtual address in the current process
 static uint64_t mem_virt2phy(const void *virtaddr);
 
-#include <iostream>
-#include <string>
-#include <vector>
-class _hugepage_
-{
-  public:
-	explicit _hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size);
-	~_hugepage_();
 
-	struct _batch_mem_
-	{
-		uint32_t index=0;
-		void * virt_addr = 0;
-		uint64_t phy_addr = 0;
-		uint32_t size_in_m = 0;
-	};
 
-	//protected:
-	uint64_t mem_virt2phy(const void *virtaddr);
-	void display();
-	void write_byt(char *addr, char c);
-	void print_byt(char *addr);
-
-  private:
-	int MAX_LRNGTH = 1024 * 1024; //default is 1M
-
-	std::string dev_info;
-	int hugepage_fd = -1;
-
-	void *addr = nullptr;
-	uint64_t paddr = 0;
-
-	std::vector<_batch_mem_> batch_vect;
-};
 
 _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size)
 {
