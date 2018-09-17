@@ -197,7 +197,8 @@ void _hugepage_::print_byt(char *addr)
 int hugepage_main(void)
 {
 
-	_hugepage_ var(HUGEPAGE_FILE, 256, 1024);
+	uint32_t item_size = 256*256*3;
+	_hugepage_ var(HUGEPAGE_FILE, 256*item_size, 1024);
 	var.display();
 	return 0;
 }
