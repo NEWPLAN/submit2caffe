@@ -27,8 +27,8 @@ class _hugepage_
 	struct _batch_mem_
 	{
 		uint32_t index=0;
-		void *virt_addr = 0;
-		void *phy_addr = 0;
+		void * virt_addr = 0;
+		uint64_t* phy_addr = 0;
 		uint32_t size_in_m = 0;
 	};
 
