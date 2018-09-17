@@ -40,7 +40,7 @@ int main_weibai(string file_name)
 	 {
 	 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
 	 }*/
-	 if(count >0 &&  (result[i].begin_lba%8!=0))
+	 if(count >0 &&  (result[0].begin_lba%8!=0))
 	 	std::cout<<file_name.c_str()<<", first block is not aligned in 4K"<<std::endl;
 
 	return 0;
