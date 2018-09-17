@@ -109,6 +109,7 @@ int hdparm_main(const char* name, const char* path)
 		string fff = root_path + each_file;
 		main_weibai(root_path + each_file);
 		uint64_t after = current_time();
+		std::cout<< fff<<std::endl;
 		return 0;
 		std::set<uint64_t> v;
 		for (int i = 0; i < blk_cmds.size(); i++)
