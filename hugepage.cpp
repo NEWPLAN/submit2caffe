@@ -33,7 +33,7 @@ class _hugepage_
 
   protected:
 	uint64_t mem_virt2phy(const void *virtaddr);
-
+	void display();
   private:
 	int MAX_LRNGTH = 1024 * 1024; //default is 1M
 
@@ -56,8 +56,6 @@ _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_siz
 		std::cerr << "error in init hugepage, out!" << std::endl;
 		exit(-1);
 	}
-	std::cerr << "error in init hugepage, out!" << std::endl;
-	exit(-1);
 
 	hugepage_fd = open(this->dev_info.c_str(), O_CREAT | O_RDWR, 0755);
 	if (hugepage_fd < 0)
@@ -142,10 +140,17 @@ uint64_t _hugepage_::mem_virt2phy(const void *virtaddr)
 	return physaddr;
 }
 
+void _hugepage_::display()
+{
+	printf("Virtual address is %p\n", addr);
+	printf("Physical address is %llu\n", paddr);
+}
+
 int hugepage_main(void)
 {
 
 	_hugepage_ var(HUGEPAGE_FILE,256,1024);
+	var.display();
 	return 0;
 }
 
