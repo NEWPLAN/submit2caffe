@@ -36,10 +36,12 @@ int main_weibai(string file_name)
 		return -1;
 	}
 
-	 for (int i = 0; i < count; i++)
+	 /*for (int i = 0; i < count; i++)
 	 {
 	 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
-	 }
+	 }*/
+	 if(count >0 &&  (result[i].begin_lba%8!=0))
+	 	std::cout<<file_name.c_str()<<", first block is not aligned in 4K"<<std::endl;
 
 	return 0;
 }
@@ -84,7 +86,6 @@ std::vector<string> load_manifest(const char* manifest_path)
 		//std::cout << filename << "," << label << std::endl;
 		manifest.push_back(filename);
 	}
-	std::cout << "out side..." << std::endl;
 	std::cout << "A total of " << manifest.size() << " images." << std::endl;
 	infile.close();
 	return manifest;
@@ -109,8 +110,6 @@ int hdparm_main(const char* name, const char* path)
 		string fff = root_path + each_file;
 		main_weibai(root_path + each_file);
 		uint64_t after = current_time();
-		std::cout<< fff<<std::endl;
-		return 0;
 		std::set<uint64_t> v;
 		for (int i = 0; i < blk_cmds.size(); i++)
 		{
