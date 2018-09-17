@@ -77,6 +77,7 @@ _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_siz
 
 _hugepage_::~_hugepage_()
 {
+	std::cout<<"destroy variable"<<std::endl;
 	if (addr != nullptr)
 		munmap(addr, MAX_LRNGTH);
 	if (hugepage_fd >= 0)
@@ -140,6 +141,13 @@ uint64_t _hugepage_::mem_virt2phy(const void *virtaddr)
 }
 
 int hugepage_main(void)
+{
+
+	_hugepage_ var(HUGEPAGE_FILE,256,1024);
+	return 0;
+}
+
+int hugepage_main__2(void)
 {
 	void *addr;
 	int hugepage_fd;
