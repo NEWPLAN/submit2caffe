@@ -31,9 +31,11 @@ class _hugepage_
 		uint32_t size_in_m = 0;
 	};
 
+	void display();
+
   protected:
 	uint64_t mem_virt2phy(const void *virtaddr);
-	void display();
+	
   private:
 	int MAX_LRNGTH = 1024 * 1024; //default is 1M
 
