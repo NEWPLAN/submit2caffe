@@ -163,7 +163,7 @@ void _hugepage_::display()
 	std::cout<<"batched items is: "<<batch_vect.size()<<std::endl;
 	for(int index = 0; index<batch_vect.size();index++)
 	{
-		std::cout<<"\nindex: "<<batch_vect[index].index
+		std::cout<<"index: "<<batch_vect[index].index
 		<<" physical addr: "<<batch_vect[index].phy_addr
 		<<" virt addr: "<<batch_vect[index].virt_addr
 		<<" block size: "<<batch_vect[index].size_in_m
