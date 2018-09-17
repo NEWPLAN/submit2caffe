@@ -12,6 +12,6 @@ int main(void)
     std::cout << "Hello world..." << std::endl;
     hugepage_main();
     glane_main();
-    hdparm_main(man_path.c_str(), folder_path.c_str());
+    //hdparm_main(man_path.c_str(), folder_path.c_str());
     return 0;
 }
