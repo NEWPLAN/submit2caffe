@@ -17,6 +17,7 @@ static uint64_t mem_virt2phy(const void *virtaddr);
 
 #include <iostream>
 #include <string>
+#include <vector>
 class _hugepage_
 {
   public:
