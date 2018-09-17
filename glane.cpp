@@ -23,6 +23,69 @@ int set_cpu_affinity(int core_id)
     return result;
 }
 
+class fpga_channel
+{
+  public:
+    explicit fpga_channel(uint32_t _core_id);
+    ~fpga_channel();
+
+protected:
+    void exit_with_status();
+
+  private:
+    int fd;
+    int core_id;
+    int core_num;
+    struct glane_entry cmds[MAX_CMD_LRNGTH];
+    struct glane_entry cpls[MAX_CMD_LRNGTH];
+    const uint32_t MAX_CMD_LRNGTH = 95000;
+    uint32_t submitted_num= 0;
+    uint32_t polled_num= 0;
+
+    bool is_inited=false;
+};
+
+fpga_channel::fpga_channel(uint32_t _core_id)
+{
+    this->core_num = init_driver("/dev/glaneoncpu0");
+    
+    if (core_num < 0)
+    {
+        std::cerr<<"init_driver(): error"<<std::endl;
+        exit(-1);
+    }
+    if(_core_id<32 && _core_id>0)
+        this->core_id = _core_id;
+    else
+        this->core_id = 19;
+    if (set_cpu_affinity(this->core_id))
+    {
+        std::cerr<<"set_cpu_affinity(): error\n"<<std::endl;
+        exit(-1);
+    }
+
+    for (i = 0; i < MAX_CMD_LRNGTH; i++)
+    {
+        cmds[i].req_type = 0x40; // REQ_AIPRE_READ
+        cmds[i].dst_ipv4 = 123;
+        cmds[i].dst_devid = 234;
+        cmds[i].req_flag = 34;
+    }
+    is_inited = true;
+}
+
+fpga_channel::~fpga_channel()
+{
+    exit_with_status();
+}
+
+void fpga_channel::exit_with_status()
+{
+    if(is_inited)
+        free_driver();
+    is_inited = false;
+}
+
 inline uint64_t current_time();
 uint64_t current_time()
 {
@@ -31,14 +94,12 @@ uint64_t current_time()
     return tstart.tv_nsec;
 }
 
-
 int glane_main(void)
 {
     int fd, core_num, core_id = 19, i;
     int cmd_length = 95000, sub_length = 95000, cpl_length = 95000, sub_total_num = 0, cpl_total_num = 0;
     struct glane_entry cmds[cmd_length];
     struct glane_entry cpls[cmd_length];
-    uint64_t useless = 0x123;
 
     int launch = 0;
     int defaults = 0;
@@ -52,7 +113,7 @@ int glane_main(void)
         fprintf(stderr, "init_driver(): error\n");
         goto failed;
     }
-    printf("core number is: %d\n",core_num);
+    printf("core number is: %d\n", core_num);
 
     if (set_cpu_affinity(core_id))
     {
