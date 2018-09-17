@@ -26,7 +26,7 @@ using namespace std;
 int main_weibai(string file_name)
 {
 	struct block_info result[MAXCOUNT];
-	int i, count;
+	int count;
 
 	my_do_filemap(file_name.c_str(), result, MAXCOUNT, &count);
 
@@ -36,10 +36,10 @@ int main_weibai(string file_name)
 		return -1;
 	}
 
-	// for (i = 0; i < count; i++)
-	// {
-	// 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
-	// }
+	 for (int i = 0; i < count; i++)
+	 {
+	 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
+	 }
 
 	return 0;
 }
@@ -109,6 +109,7 @@ int hdparm_main(const char* name, const char* path)
 		string fff = root_path + each_file;
 		main_weibai(root_path + each_file);
 		uint64_t after = current_time();
+		return 0;
 		std::set<uint64_t> v;
 		for (int i = 0; i < blk_cmds.size(); i++)
 		{
