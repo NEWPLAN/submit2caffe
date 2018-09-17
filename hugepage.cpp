@@ -21,34 +21,7 @@ static uint64_t mem_virt2phy(const void *virtaddr);
 class _hugepage_
 {
   public:
-	explicit _hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size)
-	{
-		this->MAX_LRNGTH = MAX_LRNGTH * M_size;
-		this->dev_info = dev_info;
-
-		if (dev_info.length() == 0 || batch_size == 0 || M_size == 0)
-		{
-			std::cerr << "error in init hugepage, out!" << std::endl;
-			exit(-1);
-		}
-
-		hugepage_fd = open(this->dev_info.c_str(), O_CREAT | O_RDWR, 0755);
-		if (hugepage_fd < 0)
-		{
-			std::cerr << "Fail to open hugepage memory file" << std::endl;
-			exit(-1);
-		}
-
-		addr = mmap(ADDR, LENGTH, PROTECTION, FLAGS, hugepage_fd, 0);
-		if (addr == MAP_FAILED)
-		{
-			std::cerr << "mmap error" << std::endl;
-			unlink(this->dev_info.c_str());
-			exit(-1);
-		}
-
-		paddr = this->mem_virt2phy(addr);
-	}
+	explicit _hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size);
 	~_hugepage_()
 	{
 		if (addr != nullptr)
@@ -134,6 +107,34 @@ class _hugepage_
 	std::vector<_batch_mem_> batch_vect;
 };
 
+_hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size)
+{
+	this->MAX_LRNGTH = MAX_LRNGTH * M_size;
+	this->dev_info = dev_info;
+
+	if (dev_info.length() == 0 || batch_size == 0 || M_size == 0)
+	{
+		std::cerr << "error in init hugepage, out!" << std::endl;
+		exit(-1);
+	}
+
+	hugepage_fd = open(this->dev_info.c_str(), O_CREAT | O_RDWR, 0755);
+	if (hugepage_fd < 0)
+	{
+		std::cerr << "Fail to open hugepage memory file" << std::endl;
+		exit(-1);
+	}
+
+	addr = mmap(ADDR, LENGTH, PROTECTION, FLAGS, hugepage_fd, 0);
+	if (addr == MAP_FAILED)
+	{
+		std::cerr << "mmap error" << std::endl;
+		unlink(this->dev_info.c_str());
+		exit(-1);
+	}
+
+	paddr = this->mem_virt2phy(addr);
+}
 
 int hugepage_main(void)
 {
