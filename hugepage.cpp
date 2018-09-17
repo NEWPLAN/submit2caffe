@@ -26,16 +26,18 @@ class _hugepage_
 
 	struct _batch_mem_
 	{
+		uint32_t index=0;
 		void *virt_addr = 0;
 		void *phy_addr = 0;
 		uint32_t size_in_m = 0;
 	};
 
-	void display();
-
-  protected:
+	//protected:
 	uint64_t mem_virt2phy(const void *virtaddr);
-	
+	void display();
+	void write_byt(char *addr, char c);
+	void print_byt(char *addr);
+
   private:
 	int MAX_LRNGTH = 1024 * 1024; //default is 1M
 
@@ -75,11 +77,22 @@ _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_siz
 	}
 
 	paddr = this->mem_virt2phy(addr);
+
+	for(uint32_t index=0;index<MAX_LRNGTH/(batch_size);index++)
+	{
+		_batch_mem_ a;
+		a.index=index;
+		a.size_in_m=batch_size;
+		a.phy_addr=paddr+batch_size*index;
+		a.virt_addr = addr+batch_size*index;
+		batch_vect.push_back(a);
+	}
+
 }
 
 _hugepage_::~_hugepage_()
 {
-	std::cout<<"destroy variable"<<std::endl;
+	std::cout << "destroy variable" << std::endl;
 	if (addr != nullptr)
 		munmap(addr, MAX_LRNGTH);
 	if (hugepage_fd >= 0)
@@ -146,12 +159,45 @@ void _hugepage_::display()
 {
 	printf("Virtual address is %p\n", addr);
 	printf("Physical address is %llu\n", paddr);
+
+	std::cout<<"batched items is: "<<batch_vect.length()<<std::endl;
+	for(int index = 0; index<batch_vect.length();index++)
+	{
+		std::cout<<"\nindex: "<<batch_vect[index].index
+		<<" physical addr: "<<batch_vect[index].phy_addr
+		<<" virt addr: "<<batch_vect[index].virt_addr
+		<<" block size: "<<batch_vect[index].size_in_m
+		<<std::endl;
+	}
+}
+
+void _hugepage_::write_byt(char *addr, char c)
+{
+	if (addr)
+	{
+		*addr = c;
+	}
+	else
+	{
+		fprintf(stderr, "%s(): empty pointer\n", __func__);
+	}
+}
+void _hugepage_::print_byt(char *addr)
+{
+	if (addr)
+	{
+		printf("%d\n", (int)(*addr));
+	}
+	else
+	{
+		fprintf(stderr, "%s(): empty pointer\n", __func__);
+	}
 }
 
 int hugepage_main(void)
 {
 
-	_hugepage_ var(HUGEPAGE_FILE,256,1024);
+	_hugepage_ var(HUGEPAGE_FILE, 256, 1024);
 	var.display();
 	return 0;
 }
