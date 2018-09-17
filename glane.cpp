@@ -36,10 +36,10 @@ protected:
     int fd;
     int core_id;
     int core_num;
-    const uint32_t MAX_CMD_LRNGTH = 95000;
+#define  MAX_CMD_LRNGTH  95000
     struct glane_entry cmds[MAX_CMD_LENGTH];
     struct glane_entry cpls[MAX_CMD_LENGTH];
-    
+
     uint32_t submitted_num= 0;
     uint32_t polled_num= 0;
 
