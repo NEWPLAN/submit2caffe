@@ -56,6 +56,8 @@ _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_siz
 		std::cerr << "error in init hugepage, out!" << std::endl;
 		exit(-1);
 	}
+	std::cerr << "error in init hugepage, out!" << std::endl;
+	exit(-1);
 
 	hugepage_fd = open(this->dev_info.c_str(), O_CREAT | O_RDWR, 0755);
 	if (hugepage_fd < 0)
