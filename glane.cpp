@@ -11,6 +11,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#include <iostream>
+
 #define PFN_MASK_SIZE 8
 
 int set_cpu_affinity(int core_id)
