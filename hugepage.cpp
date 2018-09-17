@@ -45,7 +45,9 @@ class _hugepage_
 
 	std::vector<_batch_mem_> batch_vect;
 
-} _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size)
+};
+
+_hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_size)
 {
 	this->MAX_LRNGTH = MAX_LRNGTH * M_size;
 	this->dev_info = dev_info;
