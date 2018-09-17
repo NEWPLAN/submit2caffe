@@ -56,7 +56,7 @@ class _hugepage_
 		if (hugepage_fd >= 0)
 		{
 			close(hugepage_fd);
-			unlink(this->dev_info.c_str())
+			unlink(this->dev_info.c_str());
 		}
 	}
 
