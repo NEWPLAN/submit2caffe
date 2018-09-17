@@ -87,7 +87,6 @@ _hugepage_::_hugepage_(std::string dev_info, uint32_t batch_size, uint32_t M_siz
 		a.virt_addr = addr+batch_size*index;
 		batch_vect.push_back(a);
 	}
-
 }
 
 _hugepage_::~_hugepage_()
