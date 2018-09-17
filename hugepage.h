@@ -1,9 +1,10 @@
 #ifndef __MY_HUGE_PAGE__
 #define __MY_HUGE_PAGE__
+
+#if defined(__cplusplus)
 #include <iostream>
 #include <string>
 #include <vector>
-#if defined(__cplusplus)
 extern "C"
 {
 #endif
