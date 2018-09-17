@@ -36,7 +36,7 @@ protected:
     int fd;
     int core_id;
     int core_num;
-#define  MAX_CMD_LRNGTH  95000
+#define  MAX_CMD_LENGTH  95000
     struct glane_entry cmds[MAX_CMD_LENGTH];
     struct glane_entry cpls[MAX_CMD_LENGTH];
 
