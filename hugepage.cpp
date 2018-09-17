@@ -28,7 +28,7 @@ class _hugepage_
 		void *virt_addr = 0;
 		void *phy_addr = 0;
 		uint32_t size_in_m = 0;
-	}
+	};
 
 	protected : uint64_t
 				mem_virt2phy(const void *virtaddr);
