@@ -52,6 +52,7 @@ int glane_main(void)
         fprintf(stderr, "init_driver(): error\n");
         goto failed;
     }
+    printf("core number is: %d\n",core_num);
 
     if (set_cpu_affinity(core_id))
     {
