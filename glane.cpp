@@ -14,23 +14,13 @@
 
 #include <iostream>
 
-#define PFN_MASK_SIZE 8
-
-int set_cpu_affinity(int core_id)
-{
-    int result;
-    cpu_set_t mask;
-    CPU_ZERO(&mask);
-    CPU_SET(core_id, &mask);
-    result = sched_setaffinity(0, sizeof(mask), &mask);
-    return result;
-}
 
 class fpga_channel
 {
   public:
     explicit fpga_channel(uint32_t _core_id);
     ~fpga_channel();
+    submit_cmds();
 
 protected:
     void exit_with_status();
@@ -48,6 +38,22 @@ protected:
 
     bool is_inited=false;
 };
+
+
+
+#define PFN_MASK_SIZE 8
+
+int set_cpu_affinity(int core_id)
+{
+    int result;
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(core_id, &mask);
+    result = sched_setaffinity(0, sizeof(mask), &mask);
+    return result;
+}
+
+
 
 fpga_channel::fpga_channel(uint32_t _core_id)
 {
