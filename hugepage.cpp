@@ -161,7 +161,7 @@ void _hugepage_::print_byt(char *addr)
 	}
 }
 
-int hugepage_test(void)
+int hugepage_main(void)
 {
 
 	uint32_t item_size = 256*256*3;
