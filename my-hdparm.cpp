@@ -66,7 +66,7 @@ void check_blk(char *file_name, int lba,  int file_length, int sectors)
 		printf("read file %s error.....\n", file_name);
 	}
 	fclose(fp);
-	if (strcmp(read_buf, buffer, file_length) != 0)
+	if (strncmp((const char*)read_buf, (const char*)buffer, file_length) != 0)
 	{
 		printf("file %s is not right.....\n", file_name);
 	}
