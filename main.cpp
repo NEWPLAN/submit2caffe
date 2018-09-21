@@ -10,8 +10,8 @@ std::string folder_path = "/mnt/dc_p3700/imagenet/train/";
 int main(void)
 {
     std::cout << "Hello world..." << std::endl;
-    hugepage_main();
-    glane_main();
+    //hugepage_main();
+    //glane_main();
     hugepage_test(man_path.c_str(), folder_path.c_str());
     return 0;
 }
