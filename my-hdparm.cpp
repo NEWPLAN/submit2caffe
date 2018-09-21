@@ -34,7 +34,7 @@ using namespace std;
 #define MAX_FILE_SIZE 1024 * 1024 * 10
 unsigned char buffer[MAX_FILE_SIZE];
 unsigned char read_buf[MAX_FILE_SIZE];
-void check_blk(const char *file_name, int lba,  int file_length, int sectors)
+void check_blk(const char *file_name, int lba, int file_length, int sectors)
 {
 	int fd = 0;
 
@@ -45,14 +45,14 @@ void check_blk(const char *file_name, int lba,  int file_length, int sectors)
 	//int lba;
 	//printf("what will be the lba:");
 	//scanf("%d",&lba);
-	printf("sectors is %d\n",sectors);
+	//printf("sectors is %d\n",sectors);
 
 	fd = open("/dev/nvme0n1", O_RDWR);
 
 	nvme_cmd.opcode = 0x02;
 	nvme_cmd.addr = (__u64)buffer;
 	nvme_cmd.nsid = 1;
-	nvme_cmd.data_len = sectors*512;
+	nvme_cmd.data_len = sectors * 512;
 	nvme_cmd.cdw10 = lba;
 	nvme_cmd.cdw11 = 0;
 	nvme_cmd.cdw12 = sectors;
@@ -60,16 +60,21 @@ void check_blk(const char *file_name, int lba,  int file_length, int sectors)
 	int ret = ioctl(fd, NVME_IOCTL_IO_CMD, &nvme_cmd);
 	close(fd);
 	if (ret != 0)
-		printf("failed read file ... %d\n", ret);
-	FILE *fp = fopen(file_name, "rb");
-	if (fread(read_buf, 1, file_length, fp) != file_length)
 	{
-		printf("read file %s error.....\n", file_name);
+		printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
 	}
-	fclose(fp);
-	if (strncmp((const char*)read_buf, (const char*)buffer, file_length) != 0)
+	else
 	{
-		printf("file %s is not right.....\n", file_name);
+		FILE *fp = fopen(file_name, "rb");
+		if (fread(read_buf, 1, file_length, fp) != file_length)
+		{
+			printf("read file %s error.....\n", file_name);
+		}
+		fclose(fp);
+		if (strncmp((const char *)read_buf, (const char *)buffer, file_length) != 0)
+		{
+			printf("file %s is not right.....\n", file_name);
+		}
 	}
 	//printf("buffer after the read\n");
 	//for(register int i=0;i<SIZE;printf("%c",buffer[i++]));
@@ -93,7 +98,7 @@ int main_weibai(string file_name)
 	}
 	else
 	{
-		check_blk(file_name.c_str(),result[0].begin_lba,sizeee,result[0].length/512);
+		check_blk(file_name.c_str(), result[0].begin_lba, sizeee, result[0].length / 512);
 	}
 
 	/*for (int i = 0; i < count; i++)
