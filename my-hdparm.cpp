@@ -48,7 +48,7 @@ void check_blk(char *file_name, int lba,  int file_length, int sectors)
 	fd = open("/dev/nvme0n1", O_RDWR);
 
 	nvme_cmd.opcode = 0x02;
-	nvme_cmd.addr = (unsigned long long *)buffer;
+	nvme_cmd.addr = (uint64_t *)buffer;
 	nvme_cmd.nsid = 1;
 	nvme_cmd.data_len = sectors*512;
 	nvme_cmd.cdw10 = lba;
