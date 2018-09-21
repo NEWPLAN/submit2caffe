@@ -86,7 +86,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 		fclose(fp);
 		if (strncmp((const char *)read_buf, (const char *)buffer, file_length) != 0)
 		{
-			//printf("file %s is not right.....\n", file_name);
+			printf("file %s is not right.....\n", file_name);
 		}
 		else
 		{
