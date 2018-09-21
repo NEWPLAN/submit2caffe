@@ -31,7 +31,7 @@ using namespace std;
 #include <unistd.h>
 
 #define MAXCOUNT 1024
-#define MAX_FILE_SIZE 1024 * 1024 * 10
+#define MAX_FILE_SIZE 1024 * 1024 * 100
 unsigned char buffer[MAX_FILE_SIZE];
 unsigned char read_buf[MAX_FILE_SIZE];
 int fd = 0;
@@ -66,7 +66,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	//close(fd);
 	if (ret != 0)
 	{
-		printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
+		//printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
 	}
 	else
 	{
