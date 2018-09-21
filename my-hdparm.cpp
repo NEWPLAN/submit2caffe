@@ -34,7 +34,7 @@ using namespace std;
 #define MAX_FILE_SIZE 1024 * 1024 * 10
 unsigned char buffer[MAX_FILE_SIZE];
 unsigned char read_buf[MAX_FILE_SIZE];
-void check_blk(char *file_name, int lba,  int file_length, int sectors)
+void check_blk(const char *file_name, int lba,  int file_length, int sectors)
 {
 	int fd = 0;
 
