@@ -45,7 +45,6 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	}
 
 	struct nvme_passthru_cmd nvme_cmd;
-	
 
 	memset(buffer, 0, MAX_FILE_SIZE);
 	//int lba;
@@ -57,7 +56,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	{
 		memset(&nvme_cmd, 0, sizeof(nvme_cmd));
 		nvme_cmd.opcode = 0x02;
-		nvme_cmd.addr = (__u64)(buffer+512);
+		nvme_cmd.addr = (__u64)(buffer + index * 512);
 		nvme_cmd.nsid = 1;
 		nvme_cmd.data_len = 1 * 512;
 		nvme_cmd.cdw10 = lba;
@@ -74,7 +73,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	//close(fd);
 	if (ret != 0)
 	{
-		printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
+		printf("sectors:%d,  failed read file %s ... %d\n", sectors, file_name, ret);
 	}
 	else
 	{
@@ -176,7 +175,7 @@ int hdparm_main(const char *name, const char *path)
 {
 	vector<struct command> blk_cmds;
 
-	string fff="/mnt/dc_p3700/imagenet/abc.py";
+	string fff = "/mnt/dc_p3700/imagenet/abc.py";
 	main_weibai(fff);
 
 	printf("Hello world, newplan...\n");
