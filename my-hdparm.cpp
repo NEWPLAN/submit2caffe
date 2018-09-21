@@ -20,8 +20,58 @@ using namespace std;
 #include <sys/types.h>
 #include "hdparm.h"
 
-#define MAXCOUNT 1024
+//for check
+#include <stdio.h>
+#include <stdlib.h>
+#include <linux/nvme_ioctl.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <time.h>
+#include <string.h>
 
+#define MAXCOUNT 1024
+#define MAX_FILE_SIZE 1024 * 1024 * 10
+unsigned char buffer[MAX_FILE_SIZE];
+unsigned char read_buf[MAX_FILE_SIZE];
+void check_blk(char *file_name, int lba,  int file_length, int sectors)
+{
+	int fd = 0;
+
+	struct nvme_passthru_cmd nvme_cmd;
+	memset(&nvme_cmd, 0, sizeof(nvme_cmd));
+
+	memset(buffer, 0, MAX_FILE_SIZE);
+	//int lba;
+	//printf("what will be the lba:");
+	//scanf("%d",&lba);
+
+	fd = open("/dev/nvme0n1", O_RDWR);
+
+	nvme_cmd.opcode = 0x02;
+	nvme_cmd.addr = (unsigned long long *)buffer;
+	nvme_cmd.nsid = 1;
+	nvme_cmd.data_len = sectors*512;
+	nvme_cmd.cdw10 = lba;
+	nvme_cmd.cdw11 = 0;
+	nvme_cmd.cdw12 = sectors;
+
+	int ret = ioctl(fd, NVME_IOCTL_IO_CMD, &nvme_cmd);
+	close(fd);
+	if (ret != 0)
+		printf("failed read file ... %d\n", ret);
+	FILE *fp = fopen(file_name, "rb");
+	if (fread(read_buf, 1, file_length, fp) != file_length)
+	{
+		printf("read file %s error.....\n", file_name);
+	}
+	fclose(fp);
+	if (strcmp(read_buf, buffer, file_length) != 0)
+	{
+		printf("file %s is not right.....\n", file_name);
+	}
+	//printf("buffer after the read\n");
+	//for(register int i=0;i<SIZE;printf("%c",buffer[i++]));
+}
 
 int main_weibai(string file_name)
 {
@@ -35,29 +85,32 @@ int main_weibai(string file_name)
 		return -1;
 	}
 	//printf("size = %d, %d, count == %d\n",sizeee,result[0].length, count);
-	if(count != 1)
+	if (count != 1)
 	{
 		printf("count != 1\n");
 	}
+	else
+	{
+		check_blk(file_name.c_str(),result[0].begin_lba,sizeee,result[0].length/512);
+	}
 
-	 /*for (int i = 0; i < count; i++)
+	/*for (int i = 0; i < count; i++)
 	 {
 	 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
 	 }*/
-	 if(count >0 &&  (result[0].begin_lba%8!=0))
-	 	std::cout<<file_name.c_str()<<", first block is not aligned in 4K"<<std::endl;
+	if (count > 0 && (result[0].begin_lba % 8 != 0))
+		std::cout << file_name.c_str() << ", first block is not aligned in 4K" << std::endl;
 
 	return 0;
 }
-
 
 static const unsigned int sector_bytes = 512;
 
 struct command
 {
-	uint64_t begin_lba;     // begin logical block address (LBA)
-	uint32_t length;        // segment length in bytes
-	uint64_t recv_addr;     // physical memory address to receive this segment
+	uint64_t begin_lba;		 // begin logical block address (LBA)
+	uint32_t length;		 // segment length in bytes
+	uint64_t recv_addr;		 // physical memory address to receive this segment
 	uint32_t available_byte; // available bytes for this chunk.
 };
 
@@ -71,9 +124,8 @@ static uint64_t current_time(void)
 	return tv.tv_sec * 1000000 + tv.tv_usec;
 }
 
-
 std::vector<string> manifest;
-std::vector<string> load_manifest(const char* manifest_path)
+std::vector<string> load_manifest(const char *manifest_path)
 {
 	///*
 	std::ifstream infile(manifest_path);
@@ -95,7 +147,7 @@ std::vector<string> load_manifest(const char* manifest_path)
 	return manifest;
 }
 
-int hdparm_main(const char* name, const char* path)
+int hdparm_main(const char *name, const char *path)
 {
 	vector<struct command> blk_cmds;
 
@@ -106,7 +158,7 @@ int hdparm_main(const char* name, const char* path)
 	std::vector<string> _manifest;
 	_manifest = load_manifest(name);
 	uint64_t index = 0;
-	for (auto& each_file : _manifest)
+	for (auto &each_file : _manifest)
 	{
 		index++;
 		blk_cmds.clear();
@@ -145,4 +197,3 @@ int hdparm_main(const char* name, const char* path)
 	}
 	return 0;
 }
-
