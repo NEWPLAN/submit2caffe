@@ -27,14 +27,14 @@ int main_weibai(string file_name)
 {
 	struct block_info result[MAXCOUNT];
 	int count;
-
-	my_do_filemap(file_name.c_str(), result, MAXCOUNT, &count);
+	int sizeee = my_do_filemap(file_name.c_str(), result, MAXCOUNT, &count);
 
 	if (count > MAXCOUNT)
 	{
 		fprintf(stderr, "count (%d) > maxcount (%d)\n", count, MAXCOUNT);
 		return -1;
 	}
+	printf("size = %d\n",sizeee);
 
 	 /*for (int i = 0; i < count; i++)
 	 {
