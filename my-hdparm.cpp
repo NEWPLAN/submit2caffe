@@ -38,35 +38,43 @@ int fd = 0;
 bool first = true;
 void check_blk(const char *file_name, int lba, int file_length, int sectors)
 {
-	if(first)
+	if (first)
 	{
 		fd = open("/dev/nvme0n1", O_RDWR);
-		first=false;
+		first = false;
 	}
 
 	struct nvme_passthru_cmd nvme_cmd;
-	memset(&nvme_cmd, 0, sizeof(nvme_cmd));
+	
 
 	memset(buffer, 0, MAX_FILE_SIZE);
 	//int lba;
 	//printf("what will be the lba:");
 	//scanf("%d",&lba);
 	//printf("sectors is %d\n",sectors);
+	int ret = 0;
+	for (int index = 0; index < sectors; index++)
+	{
+		memset(&nvme_cmd, 0, sizeof(nvme_cmd));
+		nvme_cmd.opcode = 0x02;
+		nvme_cmd.addr = (__u64)(buffer+512);
+		nvme_cmd.nsid = 1;
+		nvme_cmd.data_len = 1 * 512;
+		nvme_cmd.cdw10 = lba;
+		nvme_cmd.cdw11 = 0;
+		nvme_cmd.cdw12 = 1;
 
-
-	nvme_cmd.opcode = 0x02;
-	nvme_cmd.addr = (__u64)buffer;
-	nvme_cmd.nsid = 1;
-	nvme_cmd.data_len = sectors * 512;
-	nvme_cmd.cdw10 = lba;
-	nvme_cmd.cdw11 = 0;
-	nvme_cmd.cdw12 = sectors;
-
-	int ret = ioctl(fd, NVME_IOCTL_IO_CMD, &nvme_cmd);
+		ret = ioctl(fd, NVME_IOCTL_IO_CMD, &nvme_cmd);
+		if (ret != 0)
+		{
+			printf("sectors:%d,  failed read file %s ... %d\n", sectors, file_name, ret);
+			break;
+		}
+	}
 	//close(fd);
 	if (ret != 0)
 	{
-		//printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
+		printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
 	}
 	else
 	{
@@ -166,8 +174,6 @@ std::vector<string> load_manifest(const char *manifest_path)
 int hdparm_main(const char *name, const char *path)
 {
 	vector<struct command> blk_cmds;
-
-	
 
 	printf("Hello world, newplan...\n");
 	//"/mnt/dc_p3700/imagenet/train"
