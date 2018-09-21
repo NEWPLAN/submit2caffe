@@ -398,7 +398,7 @@ string cvresize(const char* input, const char* output)
 }
 
 
-#define _resize_thread_pool_
+//#define _resize_thread_pool_
 //#define __resize__
 
 int main(int argc, char** argv)
