@@ -118,14 +118,14 @@ int main_weibai(string file_name)
 		check_blk(file_name.c_str(), result[0].begin_lba, sizeee, result[0].length / 512);
 	}
 
-	for (int i = 0; i < count; i++)
-	 {
-	 	printf("%lu %u\n", result[i].begin_lba, result[i].length);
-	 }
+	/*for (int i = 0; i < count; i++)
+	{
+		printf("%lu %u\n", result[i].begin_lba, result[i].length);
+	}
+	*/
 	if (count > 0 && (result[0].begin_lba % 8 != 0))
 		std::cout << file_name.c_str() << ", first block is not aligned in 4K" << std::endl;
-	close(fd);
-	exit(0);
+	
 	return 0;
 }
 
