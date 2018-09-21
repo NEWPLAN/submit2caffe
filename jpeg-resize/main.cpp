@@ -358,16 +358,16 @@ int main_loop(const char* path, int index )
 	{
 		nums++;
 		printf("%d in %d ERROR %s\n", nums, index, filename);
-		if (index >= 0)
-		{
-			string abc = cvresize(filename, NULL);
-			main_loop(abc.c_str(), -1);
-		}
-		else
-		{
-			printf("cannot process this image......\n");
-			exit(0);
-		}
+		// if (index >= 0)
+		// {
+		// 	string abc = cvresize(filename, NULL);
+		// 	main_loop(abc.c_str(), -1);
+		// }
+		// else
+		// {
+		// 	printf("cannot process this image......\n");
+		// 	exit(0);
+		// }
 	}
 	if (index < 0)
 	{
