@@ -45,6 +45,7 @@ void check_blk(const char *file_name, int lba,  int file_length, int sectors)
 	//int lba;
 	//printf("what will be the lba:");
 	//scanf("%d",&lba);
+	printf("sectors is %d\n",sectors);
 
 	fd = open("/dev/nvme0n1", O_RDWR);
 
