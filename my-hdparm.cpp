@@ -187,10 +187,9 @@ int hdparm_main(const char *name, const char *path)
 			}
 			v.insert(blk_cmds[i].begin_lba);
 		}
-		if (index % 5000 == 0)
+		if (index % 10000 == 0)
 		{
-			std::cout << "finished parsing " << index << std::endl;
-			std::cout << "rate : " << 1000 / ((after - before) / 1000.0) << " im/s" << std::endl;
+			std::cout << "finished parsing " << index << ", rate : " << 1000 / ((after - before) / 1000.0) << " im/s" << std::endl;
 		}
 		{
 			v.clear();
