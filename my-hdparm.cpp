@@ -28,6 +28,7 @@ using namespace std;
 #include <fcntl.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 #define MAXCOUNT 1024
 #define MAX_FILE_SIZE 1024 * 1024 * 10
@@ -48,7 +49,7 @@ void check_blk(char *file_name, int lba,  int file_length, int sectors)
 	fd = open("/dev/nvme0n1", O_RDWR);
 
 	nvme_cmd.opcode = 0x02;
-	nvme_cmd.addr = (uint64_t *)buffer;
+	nvme_cmd.addr = (__u64 *)buffer;
 	nvme_cmd.nsid = 1;
 	nvme_cmd.data_len = sectors*512;
 	nvme_cmd.cdw10 = lba;
