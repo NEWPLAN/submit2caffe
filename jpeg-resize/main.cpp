@@ -405,6 +405,7 @@ int main(int argc, char** argv)
 {
 #ifdef _resize_thread_pool_
 	ThreadPool tp(30);
+	
 #endif
 	string root_path = "/mnt/dc_p3700/imagenet/train/";
 	const char* manifest_path = "/home/yang/project/imagenet/train.txt";
