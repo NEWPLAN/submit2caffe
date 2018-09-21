@@ -34,9 +34,15 @@ using namespace std;
 #define MAX_FILE_SIZE 1024 * 1024 * 10
 unsigned char buffer[MAX_FILE_SIZE];
 unsigned char read_buf[MAX_FILE_SIZE];
+int fd = 0;
+bool first = true;
 void check_blk(const char *file_name, int lba, int file_length, int sectors)
 {
-	int fd = 0;
+	if(first)
+	{
+		fd = open("/dev/nvme0n1", O_RDWR);
+		first=false;
+	}
 
 	struct nvme_passthru_cmd nvme_cmd;
 	memset(&nvme_cmd, 0, sizeof(nvme_cmd));
@@ -47,7 +53,6 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	//scanf("%d",&lba);
 	//printf("sectors is %d\n",sectors);
 
-	fd = open("/dev/nvme0n1", O_RDWR);
 
 	nvme_cmd.opcode = 0x02;
 	nvme_cmd.addr = (__u64)buffer;
@@ -58,7 +63,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 	nvme_cmd.cdw12 = sectors;
 
 	int ret = ioctl(fd, NVME_IOCTL_IO_CMD, &nvme_cmd);
-	close(fd);
+	//close(fd);
 	if (ret != 0)
 	{
 		printf("sectors:%d,  failed read file %s ... %d\n",sectors,file_name, ret);
@@ -157,6 +162,8 @@ std::vector<string> load_manifest(const char *manifest_path)
 int hdparm_main(const char *name, const char *path)
 {
 	vector<struct command> blk_cmds;
+
+	
 
 	printf("Hello world, newplan...\n");
 	//"/mnt/dc_p3700/imagenet/train"
