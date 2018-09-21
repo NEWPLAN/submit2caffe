@@ -34,7 +34,11 @@ int main_weibai(string file_name)
 		fprintf(stderr, "count (%d) > maxcount (%d)\n", count, MAXCOUNT);
 		return -1;
 	}
-	printf("size = %d, %d, count == %d\n",sizeee,result[0].length, count);
+	//printf("size = %d, %d, count == %d\n",sizeee,result[0].length, count);
+	if(count != 1)
+	{
+		printf("count != 1\n");
+	}
 
 	 /*for (int i = 0; i < count; i++)
 	 {
