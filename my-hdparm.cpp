@@ -86,7 +86,7 @@ void check_blk(const char *file_name, int lba, int file_length, int sectors)
 		fclose(fp);
 		if (strncmp((const char *)read_buf, (const char *)buffer, file_length) != 0)
 		{
-			
+
 			//printf("file %s is not right.....\n", file_name);
 		}
 		else
@@ -175,6 +175,9 @@ std::vector<string> load_manifest(const char *manifest_path)
 int hdparm_main(const char *name, const char *path)
 {
 	vector<struct command> blk_cmds;
+
+	string fff="/mnt/dc_p3700/imagenet/abc.py";
+	main_weibai(fff);
 
 	printf("Hello world, newplan...\n");
 	//"/mnt/dc_p3700/imagenet/train"
