@@ -20,7 +20,7 @@ class fpga_channel
   public:
     explicit fpga_channel(uint32_t _core_id);
     ~fpga_channel();
-    submit_cmds();
+    void submit_cmds();
 
 protected:
     void exit_with_status();
